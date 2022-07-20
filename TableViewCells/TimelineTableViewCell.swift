@@ -42,6 +42,7 @@ class TimelineTableViewCell: UITableViewCell {
         authorLabel.text = model.author
         contentLabel.text = model.content
         contentLabel.numberOfLines = 0
+        contentLabel.highlight(text: model.content)
         timeLabel.text = model.getFormattedDate()
     }
     
