@@ -23,7 +23,15 @@ class TimelineTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+        if selected{
+            UIView.animate(withDuration: 0.2, animations: {
+                self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: { finished in
+                UIView.animate(withDuration: 0.2) {
+                    self.transform = .identity
+                }
+            })
+        }
     }
     
     func configure(model: Tweet) {
@@ -34,8 +42,6 @@ class TimelineTableViewCell: UITableViewCell {
                 ImageDownloader().getImage(withURL: url) { [weak self] image in
                     self?.avatarImage.image = image
                 }
-            } else {
-                //TODO Loader
             }
         }
         
