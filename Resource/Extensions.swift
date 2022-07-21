@@ -19,7 +19,6 @@ extension UILabel {
         let range = attributeTxt.mutableString.range(of: "@\\w.*?\\b", options: .regularExpression, range: NSRange(location: 0, length: txtLabel.count), locale: .current)
         if range.length > 0 {
             attributeTxt.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: range)
-            attributeTxt.addAttribute(NSAttributedString.Key.font, value: UIFont.boldSystemFont(ofSize: self.font.pointSize), range: range)
         }
         
         let types: NSTextCheckingResult.CheckingType = .link

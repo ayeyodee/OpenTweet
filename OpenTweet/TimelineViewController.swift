@@ -16,7 +16,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         let table = UITableView()
         let nib = UINib(nibName: "TimelineTableViewCell", bundle: nil)
         table.register(nib, forCellReuseIdentifier: "cell")
-        table.estimatedRowHeight = 100
+        table.estimatedRowHeight = 110
         table.rowHeight = UITableView.automaticDimension
         return table
     }()
@@ -30,11 +30,13 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "OpenTweet"
+        
         parseJSON()
         view.addSubview(tableView)
         tableView.frame = view.bounds
         tableView.delegate = self
-
+        
         configureDatasource()
         updateDatasource()
     }
@@ -49,7 +51,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         do {
             let jsonData = try Data(contentsOf: url)
             let timeline: Timeline = try JSONDecoder().decode(Timeline.self, from: jsonData)
-    
+            
             tweets = timeline.timeline
         }
         catch {
@@ -75,5 +77,15 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         
         datasource.apply(snapshot, animatingDifferences: true, completion: nil)
     }
+    
+    //Mark - Tableview Delegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let tweet = datasource.itemIdentifier(for: indexPath) else { return }
+        
+    }
 }
+
 
