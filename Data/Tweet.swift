@@ -31,7 +31,10 @@ struct Tweet: Codable, Hashable {
         
         dateFormatter.dateFormat = "h:m a • MM/dd/yy"///this is what you want to convert format
         dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-        let timeStamp = dateFormatter.string(from: convertedDate!)
+        var timeStamp = date
+        if let convertedDate = convertedDate {
+            timeStamp = dateFormatter.string(from: convertedDate)
+        }
         
         return timeStamp
     }

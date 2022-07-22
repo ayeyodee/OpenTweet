@@ -10,6 +10,9 @@ import UIKit
 
 class TimelineViewController: UIViewController, UITableViewDelegate {
     
+    typealias DataSource = UITableViewDiffableDataSource<Section, Tweet>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Tweet>
+    
     var tweets = [Tweet]()
     
     let tableView: UITableView = {
@@ -25,12 +28,14 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         case main
     }
     
-    var datasource: UITableViewDiffableDataSource<Section, Tweet>!
+    var datasource: DataSource!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "OpenTweet"
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "Timeline", style: .plain, target: nil, action: nil)
         
         parseJSON()
         view.addSubview(tableView)
@@ -61,7 +66,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
     
     func configureDatasource() {
         
-        datasource = UITableViewDiffableDataSource<Section, Tweet>(tableView: tableView, cellProvider: { tableView, indexPath, model -> TimelineTableViewCell? in
+        datasource = DataSource(tableView: tableView, cellProvider: { tableView, indexPath, model -> TimelineTableViewCell? in
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TimelineTableViewCell
             cell?.configure(model: model)
@@ -70,7 +75,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
     }
     
     func updateDatasource() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Tweet>()
+        var snapshot = Snapshot()
         
         snapshot.appendSections([.main])
         snapshot.appendItems(tweets)
@@ -85,6 +90,10 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let tweet = datasource.itemIdentifier(for: indexPath) else { return }
         
+        let vc = DetailViewController(nibName: "DetailViewController", bundle: nil)
+        vc.tweet = tweet
+        vc.tweets = tweets
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
