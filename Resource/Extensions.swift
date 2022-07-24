@@ -1,5 +1,5 @@
 //
-//  Extension.swift
+//  Extensions.swift
 //  OpenTweet
 //
 //  Created by Derrick Turner on 7/19/22.
@@ -37,6 +37,7 @@ extension UILabel {
 
 
 extension UITapGestureRecognizer {
+    
     func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
         guard let attributeTxt = label.attributedText else {
             return false

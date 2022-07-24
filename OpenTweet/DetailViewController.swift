@@ -131,7 +131,8 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     
     func configureDatasource() {
         
-        datasource = DataSource(tableView: tableView, cellProvider: { tableView, indexPath, model -> TimelineTableViewCell? in
+        datasource = DataSource(tableView: tableView, cellProvider: { tableView, indexPath,
+            model -> TimelineTableViewCell? in
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TimelineTableViewCell
             cell?.configure(model: model)
