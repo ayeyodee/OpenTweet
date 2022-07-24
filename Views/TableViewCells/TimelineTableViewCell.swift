@@ -15,12 +15,7 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected{
@@ -36,15 +31,7 @@ class TimelineTableViewCell: UITableViewCell {
     
     func configure(model: Tweet) {
         
-        avatarImage.image = UIImage(named: "Generic")
-        if let urlString = model.avatar {
-            if let url = URL(string: urlString) {
-                ImageDownloader().getImage(withURL: url) { [weak self] image in
-                    self?.avatarImage.image = image
-                }
-            }
-        }
-        
+        avatarImage.imageFromURL(urlString: model.avatar)
         authorLabel.text = model.author
         contentLabel.text = model.content
         contentLabel.numberOfLines = 0
@@ -56,6 +43,7 @@ class TimelineTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         avatarImage.image = UIImage(named: "Generic")
+        authorLabel.text = nil
         contentLabel.text = nil
         timeLabel.text = nil
     }

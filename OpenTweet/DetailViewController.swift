@@ -13,6 +13,14 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     typealias DataSource = UITableViewDiffableDataSource<Section, Tweet>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Tweet>
     
+    //In Reply To Tweets Properties
+    @IBOutlet weak var inReplyToView: UIView!
+    @IBOutlet weak var irtAvatarImage: UIImageView!
+    @IBOutlet weak var irtAuthorLabel: UILabel!
+    @IBOutlet weak var irtContentLabel: UILabel!
+    @IBOutlet weak var irtTimeLabel: UILabel!
+    
+    //Selected Tweets Properties
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
@@ -21,6 +29,7 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     var tweet: Tweet?
+    var inReplayToTweet: Tweet?
     var tweets = [Tweet]()
     
     var tableData = [Tweet]()
@@ -36,7 +45,7 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         
         title = "Tweet"
         
-        updateDetails()
+        updateSelectedTweet()
         configureDatasource()
         updateDatasource()
     }
@@ -52,20 +61,34 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    func updateDetails() {
+    func updateInReplyTo(tweet: Tweet) {
+        
+        irtAvatarImage.imageFromURL(urlString: tweet.avatar)
+        irtAuthorLabel.text = tweet.author
+        irtContentLabel.text = tweet.content
+        irtTimeLabel.text = tweet.getFormattedDate()
+        
+        irtAvatarImage.layer.cornerRadius = irtAvatarImage.frame.height/2
+        irtAuthorLabel.font = Helvetica.bold.of(size: 17)
+        irtContentLabel.font = Helvetica.regular.of(size: 15)
+        irtContentLabel.highlight(text: tweet.content)
+        irtContentLabel.numberOfLines = 0
+        irtTimeLabel.font = Helvetica.light.of(size: 12)
+    }
+    
+    func updateSelectedTweet() {
         
         guard let item = tweet else { return }
         
-        if let urlString = item.avatar {
-            if let url = URL(string: urlString) {
-                ImageDownloader().getImage(withURL: url) { [weak self] image in
-                    self?.avatarImage.image = image
-                }
+        if let reply = item.inReplyTo {
+            if let tweet = tweets.first(where: {$0.id == reply}) {
+                updateInReplyTo(tweet: tweet)
             }
         } else {
-            avatarImage.image = UIImage(named: "Generic")
+            inReplyToView.isHidden = true
         }
         
+        avatarImage.imageFromURL(urlString: item.avatar)
         authorLabel.text = item.author
         contentLabel.text = item.content
         contentLabel.highlight(text: item.content)
@@ -90,17 +113,17 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     
     @objc func handleTapOnLabel(_ recognizer: UITapGestureRecognizer) {
         guard let text = contentLabel.attributedText?.string else { return }
-
+        
         let types: NSTextCheckingResult.CheckingType = .link
         
         let detector = try? NSDataDetector(types: types.rawValue)
         let matches = detector?.matches(in: text, options: [], range: NSRange(location: 0, length: text.count))
         matches?.forEach {
             if let range = Range($0.range, in: text),
-                recognizer.didTapAttributedTextInLabel(label: contentLabel, inRange: NSRange(range, in: text)) {
-                    let url = text[range]
-                    if let url = URL(string: String(url)) {
-                        UIApplication.shared.open(url)
+               recognizer.didTapAttributedTextInLabel(label: contentLabel, inRange: NSRange(range, in: text)) {
+                let url = text[range]
+                if let url = URL(string: String(url)) {
+                    UIApplication.shared.open(url)
                 }
             }
         }
@@ -136,14 +159,5 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         vc.tweet = tweet
         vc.tweets = tweets
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = tableData.count > 0 ? "Replies" : ""
-        let label = UILabel()
-        label.font = Helvetica.bold.of(size: 17)
-        label.textAlignment = .center
-        label.text = title
-        return label
     }
 }

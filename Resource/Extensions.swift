@@ -63,3 +63,19 @@ extension UITapGestureRecognizer {
         return NSLocationInRange(indexOfCharacter, targetRange)
     }
 }
+
+extension UIImageView {
+    
+    func imageFromURL(urlString: String?) {
+        
+        if let urlString = urlString {
+            if let url = URL(string: urlString) {
+                ImageDownloader().getImage(withURL: url) { [weak self] image in
+                    self?.image = image
+                }
+            } else {
+                self.image = UIImage(named: "Generic")
+            }
+        }
+    }
+}
