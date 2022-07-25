@@ -16,7 +16,7 @@ class OpenTweetUITests: XCTestCase {
     }
     
     
-    func testExample() {
+    func tweetDetailUITest() {
         
         let app = XCUIApplication()
         app.launch()
