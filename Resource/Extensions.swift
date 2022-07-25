@@ -37,7 +37,6 @@ extension UILabel {
     }
 }
 
-
 extension UITapGestureRecognizer {
     
     func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
