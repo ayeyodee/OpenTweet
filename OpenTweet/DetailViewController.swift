@@ -13,19 +13,8 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     typealias DataSource = UITableViewDiffableDataSource<Section, Tweet>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Tweet>
     
-    //In Reply To Tweets Properties
-    @IBOutlet weak var inReplyToView: UIView!
-    @IBOutlet weak var irtAvatarImage: UIImageView!
-    @IBOutlet weak var irtAuthorLabel: UILabel!
-    @IBOutlet weak var irtContentLabel: UILabel!
-    @IBOutlet weak var irtTimeLabel: UILabel!
-    
-    //Selected Tweets Properties
-    @IBOutlet weak var avatarImage: UIImageView!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    
+    @IBOutlet weak var repliedTweetView: RepliedTweetView!
+    @IBOutlet weak var detailTweetView: DetailTweetView!
     @IBOutlet weak var tableView: UITableView!
     
     var tweet: Tweet?
@@ -61,72 +50,25 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    func updateInReplyTo(tweet: Tweet) {
-        
-        irtAvatarImage.imageFromURL(urlString: tweet.avatar)
-        irtAuthorLabel.text = tweet.author
-        irtContentLabel.text = tweet.content
-        irtTimeLabel.text = tweet.getFormattedDate()
-        
-        irtAvatarImage.layer.cornerRadius = irtAvatarImage.frame.height/2
-        irtAuthorLabel.font = Helvetica.bold.of(size: 17)
-        irtContentLabel.font = Helvetica.regular.of(size: 15)
-        irtContentLabel.highlight(text: tweet.content)
-        irtContentLabel.numberOfLines = 0
-        irtTimeLabel.font = Helvetica.light.of(size: 12)
-    }
-    
     func updateSelectedTweet() {
         
         guard let item = tweet else { return }
         
         if let reply = item.inReplyTo {
             if let tweet = tweets.first(where: {$0.id == reply}) {
-                updateInReplyTo(tweet: tweet)
+                repliedTweetView.configureView(model: tweet)
             }
         } else {
-            inReplyToView.isHidden = true
+            repliedTweetView.isHidden = true
         }
         
-        avatarImage.imageFromURL(urlString: item.avatar)
-        authorLabel.text = item.author
-        contentLabel.text = item.content
-        contentLabel.highlight(text: item.content)
-        contentLabel.isUserInteractionEnabled = true
-        contentLabel.addGestureRecognizer(
-            UITapGestureRecognizer(target: self,
-                                   action: #selector(handleTapOnLabel(_:))))
-        contentLabel.numberOfLines = 0
-        timeLabel.text = item.getFormattedDate()
+        detailTweetView.configureView(model: item)
         
         let nib = UINib(nibName: "TimelineTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "cell")
         tableView.estimatedRowHeight = 110
         tableView.rowHeight = UITableView.automaticDimension
         tableView.delegate = self
-        
-        avatarImage.layer.cornerRadius = avatarImage.frame.height/2
-        authorLabel.font = Helvetica.bold.of(size: 12)
-        contentLabel.font = Helvetica.regular.of(size: 18)
-        timeLabel.font = Helvetica.light.of(size: 12)
-    }
-    
-    @objc func handleTapOnLabel(_ recognizer: UITapGestureRecognizer) {
-        guard let text = contentLabel.attributedText?.string else { return }
-        
-        let types: NSTextCheckingResult.CheckingType = .link
-        
-        let detector = try? NSDataDetector(types: types.rawValue)
-        let matches = detector?.matches(in: text, options: [], range: NSRange(location: 0, length: text.count))
-        matches?.forEach {
-            if let range = Range($0.range, in: text),
-               recognizer.didTapAttributedTextInLabel(label: contentLabel, inRange: NSRange(range, in: text)) {
-                let url = text[range]
-                if let url = URL(string: String(url)) {
-                    UIApplication.shared.open(url)
-                }
-            }
-        }
     }
     
     func configureDatasource() {

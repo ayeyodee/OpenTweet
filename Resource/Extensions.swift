@@ -16,13 +16,15 @@ extension UILabel {
         
         let attributeTxt = NSMutableAttributedString(string: txtLabel)
         
-        let range = attributeTxt.mutableString.range(of: "@\\w.*?\\b", options: .regularExpression, range: NSRange(location: 0, length: txtLabel.count), locale: .current)
+        let range = attributeTxt.mutableString.range(of: "@\\w.*?\\b",
+                                                     options: .regularExpression,
+                                                     range: NSRange(location: 0, length: txtLabel.count),
+                                                     locale: .current)
         if range.length > 0 {
             attributeTxt.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: range)
         }
         
         let types: NSTextCheckingResult.CheckingType = .link
-        
         let detector = try? NSDataDetector(types: types.rawValue)
         let matches = detector?.matches(in: text, options: [], range: NSRange(location: 0, length: text.count))
         matches?.forEach {
@@ -53,6 +55,7 @@ extension UITapGestureRecognizer {
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = label.lineBreakMode
         textContainer.maximumNumberOfLines = label.numberOfLines
+        
         let labelSize = label.bounds.size
         textContainer.size = labelSize
         
@@ -78,5 +81,14 @@ extension UIImageView {
                 self.image = UIImage(named: "Generic")
             }
         }
+    }
+}
+
+extension UIView {
+    
+    func loadViewFromNib(nibName: String) -> UIView? {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: nibName, bundle: bundle)
+        return nib.instantiate(withOwner: self, options: nil).first as? UIView
     }
 }

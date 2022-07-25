@@ -28,6 +28,10 @@
 		933C5698288DEE5600E3778C /* XCTestCaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C5697288DEE5600E3778C /* XCTestCaseExtension.swift */; };
 		933C569A288DF25700E3778C /* timelinejson.json in Resources */ = {isa = PBXBuildFile; fileRef = 933C5699288DF25700E3778C /* timelinejson.json */; };
 		933C569C288DF2FE00E3778C /* EmptyTimelineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C569B288DF2FE00E3778C /* EmptyTimelineTests.swift */; };
+		93D446A6288ED1B4009200C9 /* RepliedTweetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D446A5288ED1B4009200C9 /* RepliedTweetView.swift */; };
+		93D446A8288ED1EF009200C9 /* RepliedTweetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D446A7288ED1EF009200C9 /* RepliedTweetView.xib */; };
+		93D446AA288EE530009200C9 /* DetailTweetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D446A9288EE530009200C9 /* DetailTweetView.swift */; };
+		93D446AC288EE546009200C9 /* DetailTweetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D446AB288EE546009200C9 /* DetailTweetView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +80,10 @@
 		933C5697288DEE5600E3778C /* XCTestCaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtension.swift; sourceTree = "<group>"; };
 		933C5699288DF25700E3778C /* timelinejson.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = timelinejson.json; sourceTree = "<group>"; };
 		933C569B288DF2FE00E3778C /* EmptyTimelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTimelineTests.swift; sourceTree = "<group>"; };
+		93D446A5288ED1B4009200C9 /* RepliedTweetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepliedTweetView.swift; sourceTree = "<group>"; };
+		93D446A7288ED1EF009200C9 /* RepliedTweetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RepliedTweetView.xib; sourceTree = "<group>"; };
+		93D446A9288EE530009200C9 /* DetailTweetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTweetView.swift; sourceTree = "<group>"; };
+		93D446AB288EE546009200C9 /* DetailTweetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTweetView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +179,10 @@
 			isa = PBXGroup;
 			children = (
 				931B21A12886596E00353153 /* TableViewCells */,
+				93D446A5288ED1B4009200C9 /* RepliedTweetView.swift */,
+				93D446A7288ED1EF009200C9 /* RepliedTweetView.xib */,
+				93D446A9288EE530009200C9 /* DetailTweetView.swift */,
+				93D446AB288EE546009200C9 /* DetailTweetView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -330,8 +342,10 @@
 				009C4C9B1D9F0D4100F0BC6C /* timeline.json in Resources */,
 				933C568D288A16A100E3778C /* DetailViewController.xib in Resources */,
 				009C4C761D9F0CD600F0BC6C /* LaunchScreen.storyboard in Resources */,
+				93D446AC288EE546009200C9 /* DetailTweetView.xib in Resources */,
 				931B21A9288659F400353153 /* TimelineTableViewCell.xib in Resources */,
 				009C4C731D9F0CD600F0BC6C /* Assets.xcassets in Resources */,
+				93D446A8288ED1EF009200C9 /* RepliedTweetView.xib in Resources */,
 				009C4C711D9F0CD600F0BC6C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,10 +373,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93D446A6288ED1B4009200C9 /* RepliedTweetView.swift in Sources */,
 				933C568C288A16A100E3778C /* DetailViewController.swift in Sources */,
 				931B21A8288659F400353153 /* TimelineTableViewCell.swift in Sources */,
 				931B21AD28876F8B00353153 /* ImageDownloader.swift in Sources */,
 				931B21B3288848E800353153 /* Font.swift in Sources */,
+				93D446AA288EE530009200C9 /* DetailTweetView.swift in Sources */,
 				931B21A02886553800353153 /* Tweet.swift in Sources */,
 				009C4C6E1D9F0CD600F0BC6C /* TimelineViewController.swift in Sources */,
 				009C4C6C1D9F0CD600F0BC6C /* AppDelegate.swift in Sources */,
@@ -550,6 +566,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.opentable.OpenTweet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -564,6 +581,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.opentable.OpenTweet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
