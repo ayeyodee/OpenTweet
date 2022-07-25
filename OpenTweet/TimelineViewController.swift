@@ -35,7 +35,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate {
         
         title = "OpenTweet"
         navigationItem.backBarButtonItem = UIBarButtonItem(
-            title: "Timeline", style: .plain, target: nil, action: nil)
+            title: title, style: .plain, target: nil, action: nil)
         
         parseJSON()
         view.addSubview(tableView)
